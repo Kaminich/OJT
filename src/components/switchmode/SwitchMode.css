@@ -1,0 +1,45 @@
+.switchmode {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--complementary-colorsyellow4);
+    height: 40px;
+    width: 80px;
+    padding: 0 3px;
+    border-radius: 25px;
+    gap: 10px;
+}
+
+.switchmode:hover {
+    background-color: var(--complementary-colorsyellow2);
+}
+
+.switchmode-circle {
+    background-color: var(--white);
+    height: 35px;
+    width: 80px;
+    border-radius: 50%;
+    transition: transform 0.5s ease-in-out;
+    transform: translateX(0);
+}
+
+.switchmode.light {
+    background-color: var(--main-colorspurple95);
+}
+
+.switchmode.light:hover {
+    background-color: var(--complementary-colorsblue95);
+}
+
+.switchmode.light .switchmode-circle {
+    transform: translateX(43px);
+    z-index: 1;
+}
+
+.switchmode-sun {
+    transition: transform 0.5s ease-in-out, fill 0.5s ease-in-out;
+}
+
+.switchmode.light .switchmode-sun {
+    transform: translateX(-43px);
+}

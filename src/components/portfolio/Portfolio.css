@@ -1,0 +1,106 @@
+.portfolio {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 36px;
+    align-self: stretch;
+}
+
+.portfolio-items {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.portfolio-item {
+    display: flex;
+    padding: 30px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 23px;
+    border-radius: 10px;
+    border: 1px solid var(--main-colors-gray-15, #737373);
+    background: var(--Main-Colors-Gray-5, #0B0B0B);
+}
+
+.portfolio-item.light {
+    background: none;
+}
+
+.portfolio-item-img {
+    width: 100%;
+}
+
+.portfolio-title {
+    font-family: Gotham;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 100%;
+    letter-spacing: -1.4px;
+    margin: 0;
+}
+
+.portfolio-tags {
+    display: flex;
+    gap: 20px;
+}
+
+.portfolio-tag {
+    display: flex;
+    height: 24px;
+    padding: 4px 8px;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    border-radius: 12px;
+    border: 1px solid var(--Main-Colors-Purple-3, #BE9FF6);
+    background: var(--Main-Colors-Purple-1, #E9DFFC);
+}
+
+.portfolio-tag-text {
+    color: var(--Main-Colors-Purple-6, #784DC7);
+    font-family: Gotham;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+    letter-spacing: -0.7px;
+}
+
+.portfolio-button {
+    display: flex;
+    padding: 12px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    align-self: stretch;
+    background: var(--Main-Colors-Gray-4, #292929);
+    color: white;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .portfolio {
+        display: block;
+        float: left;
+    }
+
+    .portfolio-items {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .portfolio-item {
+        width: 37%;
+        margin: 0 auto;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 767px) {
+    .portfolio-items {
+        flex-direction: column;
+        align-self: stretch;
+        margin: 0 auto;
+    }
+}

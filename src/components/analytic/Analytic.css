@@ -1,0 +1,116 @@
+.analytic {
+    display: flex;
+    padding: 80px 4%;
+    margin: auto 4%;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 29px;
+    border: 1px solid var(--Main-Colors-Gray-2, #646464);
+    background: var(--Main-Colors-Gray-5, #0B0B0B);
+}
+
+.analytic.light {
+    background: var(--main-colors-green-05, #F6FFF6);
+}
+
+.analytic-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 21px;
+}
+
+.analytic-data-text-1 {
+    color: var(--Main-Colors-Green-3, #C8FEC7);
+    font-family: Anton;
+    font-size: 110px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: 90%;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.analytic-data-text-1.light {
+    color: var(--Main-Colors-Green-7, #64C661);
+}
+
+.analytic-data-text-2 {
+    color: var(--Main-Colors-Green-3, #C8FEC7);
+    font-family: Gotham Black;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: -1.8px;
+    padding: 0 20px;
+    margin: 0;
+    width: 256px;
+    text-align: left;
+}
+
+.analytic-data-text-2.light {
+    color: var(--Main-Colors-Green-7, #64C661);
+}
+
+.analytic-svg {
+    margin: 40px;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .analytic {
+        padding: 40px 2%;
+    }
+
+    .analytic-data {
+        width: 200px;
+    }
+
+    .analytic-data-text-1 {
+        font-size: 64px;
+    }
+
+    .analytic-data-text-2 {
+        font-size: 22px;
+        text-align: center;
+        width: 100%;
+        overflow-wrap: break-word;
+        letter-spacing: 1px;
+    }
+
+    .analytic-svg {
+        display: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .analytic {
+        padding: 82px 0px;
+        flex-direction: column;
+        justify-content: center;
+        align-self: stretch;
+        gap: 144px;
+    }
+
+    .analytic-data {
+        padding: 0px auto;
+        justify-content: center;
+        align-self: stretch;
+    }
+
+    .analytic-data-text-1 {
+        font-size: 64px;
+    }
+
+    .analytic-data-text-2 {
+        font-size: 22px;
+        text-align: center;
+        width: 100%;
+        overflow-wrap: break-word;
+        letter-spacing: 1px;
+    }
+
+    .analytic-svg {
+        display: none;
+    }
+}

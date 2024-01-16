@@ -1,0 +1,12 @@
+.footer {
+    background: var(--Main-Colors-Gray-4, #292929);
+    padding: 8%;
+    padding-bottom: 40px;
+    justify-content: space-between !important;
+    margin-top: 10vh;
+}
+
+.footer-ul {
+    gap: 30px;
+    list-style: none;
+}

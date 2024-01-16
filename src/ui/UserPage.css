@@ -1,0 +1,46 @@
+.user-page {
+    margin-top: 25vh;
+    width: 100%;
+}
+
+.create-user-btn {
+    right: 20px;
+    padding: 5px 15px;
+    margin: 20px 50px;
+}
+
+.user-table-not-found {
+    text-align: center;
+}
+
+.user-table {
+    margin: 0 auto;
+    width: 90%;
+    background-color: white;
+    color: black;
+}
+
+.table-heading {
+    padding: 20px 0;
+}
+
+.table-content {
+    text-align: center;
+    padding: 10px 0;
+}
+
+.border {
+    border: 1px solid black !important;
+    border-style: outset !important;
+    border-style: inset !important;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.task-button {
+    padding: 5px 15px;
+}

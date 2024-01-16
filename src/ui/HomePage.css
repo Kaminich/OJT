@@ -1,0 +1,40 @@
+#top {
+    padding-top: 20vh;
+}
+
+.hp-content {
+    display: flex;
+    padding: 0px 4%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 36px;
+    align-self: stretch;
+}
+
+.hp-title {
+    font-family: Anton;
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%;
+    text-transform: uppercase;
+    margin-top: 25vh;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    #top {
+        padding-top: 10vh;
+    }
+    .hp-title {
+        margin-top: 15vh;
+    }
+}
+
+@media (max-width: 767px) {
+    #top {
+        padding-top: 15vh;
+    }
+    .hp-title {
+        margin-top: 64px;
+    }
+}

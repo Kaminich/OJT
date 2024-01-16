@@ -1,0 +1,59 @@
+.quote {
+    background: url('../../../public/unsplash_wHJ5L9KGTl4\(D\).png'), lightgray 50% / cover no-repeat;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+    padding: 80px 20%;
+    margin: 50px 0;
+}
+
+.quote.light {
+    background: url('../../../public/unsplash_wHJ5L9KGTl4\(L\).png'), lightgray 50% / cover no-repeat;
+}
+
+.quote-name {
+    font-family: Poppins;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 105%;
+    letter-spacing: -2.4px;
+    margin: 0;
+}
+
+.quote-content {
+    font-family: Poppins;
+    font-size: 48px;
+    font-style: italic;
+    font-weight: 700;
+    line-height: 105%;
+    letter-spacing: -2.4px;
+    margin: 0;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .quote {
+        padding: 80px 10%;
+    }
+
+    .quote-content {
+        text-align: center;
+    }
+}
+
+@media (max-width: 767px) {
+    .quote {
+        padding: 80px 5%;
+    }
+
+    .quote-name {
+        font-size: 35px;
+        text-align: center;
+    }
+
+    .quote-content {
+        font-size: 40px;
+        text-align: center;
+    }
+}

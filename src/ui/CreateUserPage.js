@@ -1,33 +1,53 @@
 import { Form, Input, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
+import CustomModal from '../components/modal/Modal';
+import { useState } from 'react';
+import CustomAlert from '../components/alert/Alert';
 
 const CreateUserPage = () => {
     const { mode } = useTheme();
     const navigate = useNavigate();
+    const [visible, setVisible] = useState(false);
+    const [body, setBody] = useState();
+    const [confirmVisibleCreateFail, setConfirmVisibleCreateFail] = useState(false);
 
-    const onFinish = async (values) => {
+    const handleModal = (values) => {
+        setVisible(true);
+        setBody(JSON.stringify({
+            id: Math.floor(Math.random() * 30) + 1,
+            firstname: values.firstname,
+            lastname: values.lastname,
+            age: values.age,
+            address: values.address,
+        }))
+    }
+
+    const handleClose = () => {
+        setVisible(false);
+        setConfirmVisibleCreateFail(false);
+    }
+
+    const onFinish = async () => {
         try {
             const response = await fetch(`https://5f17e9887c06c900160dc5f7.mockapi.io/api/users`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    id: Math.floor(Math.random() * 30) + 1,
-                    firstname: values.firstname,
-                    lastname: values.lastname,
-                    age: values.age,
-                    address: values.address,
-                }),
+                body: body
             });
 
             if (response.ok) {
-                navigate('/users');
+                setVisible(false);
+                navigate('/users', { state: { status: 'create success' } });
             } else {
+                setVisible(false);
+                setConfirmVisibleCreateFail(true);
                 console.error('Failed to create user');
             }
         } catch (error) {
+            setConfirmVisibleCreateFail(true);
             console.error('Failed to create user', error);
         }
     };
@@ -42,9 +62,11 @@ const CreateUserPage = () => {
     return (
         <div className="update-user">
             <h1 className="update-user-title">Create User</h1>
+            <CustomModal type={'create confirm'} visible={visible} onClose={handleClose} onConfirm={onFinish} />
+            <CustomAlert type={'create fail'} onClose={handleClose} visible={confirmVisibleCreateFail} />
             <Form
                 name="createUserForm"
-                onFinish={onFinish}
+                onFinish={handleModal}
                 layout='vertical'
                 className={`update-user-form ${mode}`}
             >

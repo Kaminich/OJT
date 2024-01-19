@@ -1,18 +1,27 @@
 import { useEffect, useState } from "react";
 import './UserPage.css'
 import Loading from "../components/loading/Loanding";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SearchBar from "../components/searchbar/SearchBar";
 import { Table } from "antd";
+import CustomModal from '../components/modal/Modal'
+import CustomAlert from "../components/alert/Alert";
 
 const UserPage = () => {
     const navigate = useNavigate();
-
+    const location = useLocation();
+    const status = location.state && location.state.status;
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1)
+    const [visible, setVisible] = useState(false);
+    const [confirmVisibleDeleteSuccess, setConfirmVisibleDeleteSuccess] = useState(false);
+    const [confirmVisibleDeleteFail, setConfirmVisibleDeleteFail] = useState(false);
+    const [confirmVisibleUpdateSuccess, setConfirmVisibleUpdateSuccess] = useState(false);
+    const [confirmVisibleCreateSuccess, setConfirmVisibleCreateSuccess] = useState(false);
+    const [id, setId] = useState(null);
 
-    useEffect(() => {
+    const getAllUser = (page) => {
         setLoading(true);
         fetch(`https://5f17e9887c06c900160dc5f7.mockapi.io/api/users?page=${page}`)
             .then(res => res.json())
@@ -20,17 +29,18 @@ const UserPage = () => {
                 setUsers(user);
                 setLoading(false);
             })
+    }
+    useEffect(() => {
+        getAllUser(page);
     }, [page])
-
 
     const handleSearch = (keyword) => {
         setLoading(true);
         fetch(`https://5f17e9887c06c900160dc5f7.mockapi.io/api/users?search=${keyword}`)
             .then(res => res.json())
             .then(user => {
-                
+
                 setUsers(user === 'Not found' ? [] : user);
-                console.log(user)
                 setLoading(false);
             })
             .catch(error => {
@@ -38,6 +48,20 @@ const UserPage = () => {
                 setLoading(false);
             });
     };
+
+    useEffect(() => {
+        if (status === 'update success') {
+            setConfirmVisibleUpdateSuccess(true);
+        } else if (status === 'create success') {
+            setConfirmVisibleCreateSuccess(true);
+        }
+    }, [status]);
+
+    useEffect(() => {
+        if (location.state && location.state.status) {
+            navigate(location.pathname, { state: { ...location.state, status: null } });
+        }
+    }, [navigate, location.pathname, location.state]);
 
     const handleCreate = () => {
         navigate('/users/create');
@@ -65,13 +89,26 @@ const UserPage = () => {
                     throw new Error('Failed to delete resource');
                 }
             })
-            .then(data => {
-                console.log('User deleted successfully', data);
-                window.location.reload();
+            .then(() => {
+                setConfirmVisibleDeleteSuccess(true);
+                getAllUser(page);
             })
             .catch(error => {
-                console.error('Error deleting resource:', error);
+                setConfirmVisibleDeleteFail(true);
             });
+    }
+
+    const handleModal = (id) => {
+        setVisible(true);
+        setId(id);
+    }
+
+    const handleClose = () => {
+        setVisible(false);
+        setConfirmVisibleDeleteSuccess(false);
+        setConfirmVisibleDeleteFail(false);
+        setConfirmVisibleUpdateSuccess(false);
+        setConfirmVisibleCreateSuccess(false);
     }
 
     if (loading) {
@@ -113,7 +150,7 @@ const UserPage = () => {
             render: (text, record) => (
                 <span className="flex">
                     <button className="task-button" onClick={() => handleUpdate(record.id)}>Update</button>
-                    <button className="task-button" onClick={() => handleDelete(record.id)}>Delete</button>
+                    <button className="task-button" onClick={() => handleModal(record.id)}>Delete</button>
                 </span>
             ),
             align: 'center',
@@ -154,20 +191,28 @@ const UserPage = () => {
             {users.length === 0 ? (
                 <h1 className="user-table-not-found">User not found</h1>
             ) : (
-                <Table
-                    dataSource={users}
-                    columns={columns}
-                    pagination={{
-                        pageSize: 10,
-                        current: page,
-                        onChange: (page) => setPage(page),
-                        showSizeChanger: false,
-                    }}
-                    style=
-                    {{
-                        margin: '0 5%'
-                    }}
-                />
+                <div>
+                    <CustomModal type={'delete confirm'} visible={visible} onClose={handleClose} onConfirm={() => handleDelete(id)} />
+                    <CustomAlert type={'delete success'} onClose={handleClose} visible={confirmVisibleDeleteSuccess} />
+                    <CustomAlert type={'delete fail'} onClose={handleClose} visible={confirmVisibleDeleteFail} />
+                    <CustomAlert type={'update success'} onClose={handleClose} visible={confirmVisibleUpdateSuccess} />
+                    <CustomAlert type={'create success'} onClose={handleClose} visible={confirmVisibleCreateSuccess} />
+                    <Table
+                        dataSource={users}
+                        columns={columns}
+                        pagination={{
+                            pageSize: 10,
+                            current: page,
+                            onChange: (page) => setPage(page),
+                            showSizeChanger: false,
+                        }}
+                        style=
+                        {{
+                            margin: '0 5%'
+                        }}
+                    />
+                </div>
+
             )}
         </div >
     )

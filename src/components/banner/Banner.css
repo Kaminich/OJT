@@ -1,0 +1,46 @@
+.banner {
+    display: flex;
+    border-radius: 15px;
+    background: var(--Main-Colors-Purple-4, #A87FF3);
+    width: 85%;
+    padding: 68px 0;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.banner-img {
+    position: absolute;
+    left: 7%;
+    margin-bottom: 173px;
+}
+
+.banner-text {
+    color: #FFF;
+    font-family: Gotham;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 100%;
+    width: 78%;
+}
+
+@media (max-width: 767px) {
+    .banner {
+        padding: 20px 10px;
+    }
+
+    .banner-img {
+        width: 135px;
+        height: 190px;
+        left: 1px;
+        margin-bottom: 80px;
+    }
+
+    .banner-text {
+        font-size: 12px;
+        font-weight: 300;
+        text-transform: capitalize;
+        width: 65%;
+    }
+}

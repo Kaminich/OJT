@@ -3,7 +3,7 @@ import './UserPage.css'
 import Loading from "../components/loading/Loanding";
 import { useLocation, useNavigate } from "react-router-dom";
 import SearchBar from "../components/searchbar/SearchBar";
-import { Table } from "antd";
+import { Button, Checkbox, Table } from "antd";
 import CustomModal from '../components/modal/Modal'
 import CustomAlert from "../components/alert/Alert";
 
@@ -12,6 +12,7 @@ const UserPage = () => {
     const location = useLocation();
     const status = location.state && location.state.status;
     const [users, setUsers] = useState([]);
+    const [checkedRows, setCheckedRows] = useState([]);
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1)
     const [visible, setVisible] = useState(false);
@@ -93,7 +94,7 @@ const UserPage = () => {
                 setConfirmVisibleDeleteSuccess(true);
                 getAllUser(page);
             })
-            .catch(error => {
+            .catch(() => {
                 setConfirmVisibleDeleteFail(true);
             });
     }
@@ -147,7 +148,7 @@ const UserPage = () => {
         {
             title: 'Task',
             key: 'action',
-            render: (text, record) => (
+            render: (record) => (
                 <span className="flex">
                     <button className="task-button" onClick={() => handleUpdate(record.id)}>Update</button>
                     <button className="task-button" onClick={() => handleModal(record.id)}>Delete</button>
@@ -158,10 +159,59 @@ const UserPage = () => {
         }
     ]
 
+    const handleSelect = (record, selected) => {
+        if (selected) {
+            setCheckedRows((keys) => [...keys, record.key]);
+        } else {
+            setCheckedRows((keys) => {
+                const index = keys.indexOf(record.key);
+                return [...keys.slice(0, index), ...keys.slice(index + 1)];
+            });
+        }
+    };
+
+    const toggleSelectAll = () => {
+        setCheckedRows((keys) =>
+            keys.length === users.length ? [] : users.map((r) => r.key)
+        );
+    };
+
+    const headerCheckbox = (
+        <Checkbox
+            checked={checkedRows.length}
+            indeterminate={
+                checkedRows.length > 0 && checkedRows.length < users.length
+            }
+            onChange={toggleSelectAll}
+        />
+    );
+
+    // const rowSelection = {
+    //     checkedRows,
+    //     type: "checkbox",
+    //     fixed: true,
+    //     onSelect: handleSelect,
+    //     columnTitle: headerCheckbox,
+    // };
+
+    const rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        },
+        getCheckboxProps: (record) => ({
+            disabled: record.name === 'Disabled User',
+            // Column configuration not to be checked
+            name: record.name,
+        }),
+    };
+
     return (
         <div className="user-page">
             <SearchBar onSearch={handleSearch} />
             <button className="create-user-btn" onClick={handleCreate}>Create</button>
+            <Button onClick={handleDelete} disabled={checkedRows.length === 0}>
+                Delete Selected
+            </Button>
             {/* <table className="user-table">
                 <thead>
                     <tr>
@@ -200,11 +250,16 @@ const UserPage = () => {
                     <Table
                         dataSource={users}
                         columns={columns}
+                        rowKey={(record) => record.key}
                         pagination={{
                             pageSize: 10,
                             current: page,
                             onChange: (page) => setPage(page),
                             showSizeChanger: false,
+                        }}
+                        rowSelection={{
+                            type: 'checkbox',
+                            ...rowSelection
                         }}
                         style=
                         {{

@@ -21,6 +21,10 @@
     list-style: none;
 }
 
+.footer-ul li {
+    color: white;
+}
+
 @media (min-width: 767px) and (max-width: 1024px) {
     .footer-banner {
         bottom: 13vh;

@@ -3,7 +3,7 @@ import './UserPage.css'
 import Loading from "../components/loading/Loanding";
 import { useLocation, useNavigate } from "react-router-dom";
 import SearchBar from "../components/searchbar/SearchBar";
-import { Button, Checkbox, Table } from "antd";
+import { Button, Table } from "antd";
 import CustomModal from '../components/modal/Modal'
 import CustomAlert from "../components/alert/Alert";
 
@@ -40,7 +40,6 @@ const UserPage = () => {
         fetch(`https://5f17e9887c06c900160dc5f7.mockapi.io/api/users?search=${keyword}`)
             .then(res => res.json())
             .then(user => {
-
                 setUsers(user === 'Not found' ? [] : user);
                 setLoading(false);
             })
@@ -97,6 +96,13 @@ const UserPage = () => {
             .catch(() => {
                 setConfirmVisibleDeleteFail(true);
             });
+
+    }
+
+    const handleMultipleDelete = (arr) => {
+        for (let i = 0; i < arr.length; i++) {
+            handleDelete(arr[i]);
+        }
     }
 
     const handleModal = (id) => {
@@ -159,57 +165,22 @@ const UserPage = () => {
         }
     ]
 
-    const handleSelect = (record, selected) => {
-        if (selected) {
-            setCheckedRows((keys) => [...keys, record.key]);
-        } else {
-            setCheckedRows((keys) => {
-                const index = keys.indexOf(record.key);
-                return [...keys.slice(0, index), ...keys.slice(index + 1)];
-            });
-        }
-    };
-
-    const toggleSelectAll = () => {
-        setCheckedRows((keys) =>
-            keys.length === users.length ? [] : users.map((r) => r.key)
-        );
-    };
-
-    const headerCheckbox = (
-        <Checkbox
-            checked={checkedRows.length}
-            indeterminate={
-                checkedRows.length > 0 && checkedRows.length < users.length
-            }
-            onChange={toggleSelectAll}
-        />
-    );
-
-    // const rowSelection = {
-    //     checkedRows,
-    //     type: "checkbox",
-    //     fixed: true,
-    //     onSelect: handleSelect,
-    //     columnTitle: headerCheckbox,
-    // };
-
     const rowSelection = {
-        onChange: (selectedRowKeys, selectedRows) => {
-            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        onChange: (selectedRowKeys) => {
+            setCheckedRows(selectedRowKeys);
         },
         getCheckboxProps: (record) => ({
-            disabled: record.name === 'Disabled User',
-            // Column configuration not to be checked
             name: record.name,
         }),
     };
+
+    console.log(checkedRows)
 
     return (
         <div className="user-page">
             <SearchBar onSearch={handleSearch} />
             <button className="create-user-btn" onClick={handleCreate}>Create</button>
-            <Button onClick={handleDelete} disabled={checkedRows.length === 0}>
+            <Button onClick={() => handleMultipleDelete(checkedRows)} disabled={checkedRows.length === 0}>
                 Delete Selected
             </Button>
             {/* <table className="user-table">
@@ -250,13 +221,13 @@ const UserPage = () => {
                     <Table
                         dataSource={users}
                         columns={columns}
-                        rowKey={(record) => record.key}
                         pagination={{
                             pageSize: 10,
                             current: page,
                             onChange: (page) => setPage(page),
                             showSizeChanger: false,
                         }}
+                        rowKey={(record) => record.id}
                         rowSelection={{
                             type: 'checkbox',
                             ...rowSelection

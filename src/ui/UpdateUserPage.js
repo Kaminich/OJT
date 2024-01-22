@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Loading from "../components/loading/Loanding";
 import './UpdateUserPage.css'
 import { useNavigate, useParams } from 'react-router-dom';
@@ -15,6 +15,7 @@ const UpdateUserPage = () => {
     const [visible, setVisible] = useState(false);
     const [body, setBody] = useState();
     const [confirmVisibleUpdateFail, setConfirmVisibleUpdateFail] = useState(false);
+    const [user, setUser] = useState([]);
 
     const handleModal = (values) => {
         setVisible(true);
@@ -30,6 +31,19 @@ const UpdateUserPage = () => {
         setVisible(false);
         setConfirmVisibleUpdateFail(false);
     }
+
+    useEffect(() => {
+        fetch(`https://5f17e9887c06c900160dc5f7.mockapi.io/api/users/${id}`)
+            .then(res => res.json())
+            .then(user => {
+                setUser(user);
+            })
+            .catch(error => {
+                console.log('Cannot update this user: ', error);
+            })
+    }, [id])
+
+    console.log(user)
 
     const onFinish = async () => {
         setLoading(true);
@@ -75,6 +89,7 @@ const UpdateUserPage = () => {
             <h1 className="update-user-title">Update User</h1>
             <CustomModal type={'update confirm'} visible={visible} onClose={handleClose} onConfirm={onFinish} />
             <CustomAlert type={'update fail'} onClose={handleClose} visible={confirmVisibleUpdateFail} />
+            {/* {user?.map(u => ( */}
             <Form
                 name="updateUserForm"
                 onFinish={handleModal}
@@ -121,6 +136,8 @@ const UpdateUserPage = () => {
                     </Button>
                 </Form.Item>
             </Form>
+            {/* ))} */}
+
         </div>
     );
 }

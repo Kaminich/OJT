@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import './UserPage.css'
 import Loading from "../components/loading/Loanding";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import SearchBar from "../components/searchbar/SearchBar";
 import { Button, Table } from "antd";
 import CustomModal from '../components/modal/Modal'
@@ -180,6 +180,7 @@ const UserPage = () => {
         <div className="user-page">
             <SearchBar onSearch={handleSearch} />
             <button className="create-user-btn" onClick={handleCreate}>Create</button>
+            <Link to={'/video-upload'}>Video</Link>
             <Button onClick={() => handleMultipleDelete(checkedRows)} disabled={checkedRows.length === 0}>
                 Delete Selected
             </Button>

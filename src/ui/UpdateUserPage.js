@@ -6,6 +6,7 @@ import { useTheme } from '../context/ThemeContext';
 import { Form, Input, Button } from 'antd';
 import CustomModal from '../components/modal/Modal';
 import CustomAlert from '../components/alert/Alert';
+import AvatarUpload from '../components/avatar/Avatar';
 
 const UpdateUserPage = () => {
     const { mode } = useTheme();
@@ -89,54 +90,55 @@ const UpdateUserPage = () => {
             <h1 className="update-user-title">Update User</h1>
             <CustomModal type={'update confirm'} visible={visible} onClose={handleClose} onConfirm={onFinish} />
             <CustomAlert type={'update fail'} onClose={handleClose} visible={confirmVisibleUpdateFail} />
-            {/* {user?.map(u => ( */}
-            <Form
-                name="updateUserForm"
-                onFinish={handleModal}
-                layout='vertical'
-                className={`update-user-form ${mode}`}
-            >
-                <Form.Item
-                    label="First Name"
-                    name="firstname"
-                    rules={[
-                        { required: true, message: 'Please input your first name!' },
-                        { validator: validateName }
-                    ]}
+            <div className='flex' style={{gap: '8%'}}>
+                <AvatarUpload />
+                <Form
+                    name="updateUserForm"
+                    onFinish={handleModal}
+                    layout='vertical'
+                    className={`update-user-form ${mode}`}
                 >
-                    <Input className='update-user-input' placeholder="Enter your firstname..." />
-                </Form.Item>
-                <Form.Item
-                    label="Last Name"
-                    name="lastname"
-                    rules={[
-                        { required: true, message: 'Please input your last name!' },
-                        { validator: validateName }
-                    ]}
-                >
-                    <Input className='update-user-input' placeholder="Enter your lastname..." />
-                </Form.Item>
-                <Form.Item
-                    label="Age"
-                    name="age"
-                    rules={[{ required: true, message: 'Please input your age!' }]}
-                >
-                    <Input className='update-user-input' type="number" placeholder="Enter your age..." />
-                </Form.Item>
-                <Form.Item
-                    label="Address"
-                    name="address"
-                    rules={[{ required: true, message: 'Please input your address!' }]}
-                >
-                    <Input className='update-user-input' placeholder="Enter your address..." />
-                </Form.Item>
-                <Form.Item>
-                    <Button type="primary" htmlType="submit" className='update-user-button flex'>
-                        Update
-                    </Button>
-                </Form.Item>
-            </Form>
-            {/* ))} */}
+                    <Form.Item
+                        label="First Name"
+                        name="firstname"
+                        rules={[
+                            { required: true, message: 'Please input your first name!' },
+                            { validator: validateName }
+                        ]}
+                    >
+                        <Input className='update-user-input' placeholder="Enter your firstname..." />
+                    </Form.Item>
+                    <Form.Item
+                        label="Last Name"
+                        name="lastname"
+                        rules={[
+                            { required: true, message: 'Please input your last name!' },
+                            { validator: validateName }
+                        ]}
+                    >
+                        <Input className='update-user-input' placeholder="Enter your lastname..." />
+                    </Form.Item>
+                    <Form.Item
+                        label="Age"
+                        name="age"
+                        rules={[{ required: true, message: 'Please input your age!' }]}
+                    >
+                        <Input className='update-user-input' type="number" placeholder="Enter your age..." />
+                    </Form.Item>
+                    <Form.Item
+                        label="Address"
+                        name="address"
+                        rules={[{ required: true, message: 'Please input your address!' }]}
+                    >
+                        <Input className='update-user-input' placeholder="Enter your address..." />
+                    </Form.Item>
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" className='update-user-button flex'>
+                            Update
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </div>
 
         </div>
     );

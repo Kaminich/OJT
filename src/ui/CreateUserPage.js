@@ -4,6 +4,8 @@ import { useTheme } from '../context/ThemeContext';
 import CustomModal from '../components/modal/Modal';
 import { useState } from 'react';
 import CustomAlert from '../components/alert/Alert';
+import CustomSelect from '../components/select/Select';
+import { CustomDatePicker, CustomRangePicker } from '../components/datepicker/DatePicker';
 
 const CreateUserPage = () => {
     const { mode } = useTheme();
@@ -11,6 +13,33 @@ const CreateUserPage = () => {
     const [visible, setVisible] = useState(false);
     const [body, setBody] = useState();
     const [confirmVisibleCreateFail, setConfirmVisibleCreateFail] = useState(false);
+
+    const option = [
+        {
+            label: 'Listen to music',
+            value: 'Listen to music'
+        },
+        {
+            label: 'Play game',
+            value: 'Play game'
+        },
+        {
+            label: 'Travel',
+            value: 'Travel'
+        },
+        {
+            label: 'Play sport',
+            value: 'Play sport'
+        },
+        {
+            label: 'Go to gym',
+            value: 'Go to gym'
+        },
+        {
+            label: 'Day sleep',
+            value: 'Day sleep'
+        }
+    ]
 
     const handleModal = (values) => {
         setVisible(true);
@@ -91,6 +120,13 @@ const CreateUserPage = () => {
                     <Input className='update-user-input' placeholder="Enter your lastname..." />
                 </Form.Item>
                 <Form.Item
+                    label="DOB"
+                    name="dob"
+                    rules={[{ required: true, message: 'Please select your dob!' }]}
+                >
+                    <CustomDatePicker />
+                </Form.Item>
+                <Form.Item
                     label="Age"
                     name="age"
                     rules={[{ required: true, message: 'Please input your age!' }]}
@@ -103,6 +139,20 @@ const CreateUserPage = () => {
                     rules={[{ required: true, message: 'Please input your address!' }]}
                 >
                     <Input className='update-user-input' placeholder="Enter your address..." />
+                </Form.Item>
+                <Form.Item
+                    label="Hobby"
+                    name="hobby"
+                    rules={[{ required: true, message: 'Please select your hobby!' }]}
+                >
+                    <CustomSelect option={option} placeholder={'Select your hobby!'} />
+                </Form.Item>
+                <Form.Item
+                    label="Time"
+                    name="time"
+                    rules={[{ required: true, message: 'Please select your time!' }]}
+                >
+                    <CustomRangePicker />
                 </Form.Item>
                 <Form.Item>
                     <Button type="primary" htmlType="submit" className='update-user-button flex'>

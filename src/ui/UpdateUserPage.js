@@ -44,8 +44,6 @@ const UpdateUserPage = () => {
             })
     }, [id])
 
-    console.log(user)
-
     const onFinish = async () => {
         setLoading(true);
         try {

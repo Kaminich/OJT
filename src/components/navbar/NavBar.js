@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Nav,
-  NavLink,
-  NavMenu,
-  NavBtn,
-} from "./NavbarElements.js";
+import { Nav, NavLink, NavMenu, NavBtn, } from "./NavbarElements.js";
 import "./NavBar.css";
 import { Link } from "react-router-dom";
 import SwitchMode from "../switchmode/SwitchMode.js";

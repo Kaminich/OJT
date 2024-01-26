@@ -37,7 +37,11 @@ const CustomAlert = ({ type, onClose, visible }) => {
             typeAlert = 'error';
             descriptionAlert = "The user has been deleted failed";
             break;
-
+        case 'upload fail':
+            messageAlert = 'Upload Failed';
+            typeAlert = 'error';
+            descriptionAlert = "Image must smaller than 1MB!";
+            break;
         default:
             messageAlert = "";
             typeAlert = "";
@@ -52,6 +56,8 @@ const CustomAlert = ({ type, onClose, visible }) => {
 
         return () => clearTimeout(timeout);
     }, [onClose]);
+
+    console.log(visible, visibleAlert);
 
     return (
         <Alert

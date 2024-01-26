@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Modal, Upload } from 'antd';
+import { Button, Modal, Upload, message } from 'antd';
 import './Avatar.css'
 import ProgressBar from '../progressbar/ProgressBar';
 
@@ -12,6 +12,7 @@ const AvatarUpload = () => {
     const [progress, setProgress] = useState(0);
     const [progressVisible, setProgressVisible] = useState(false);
     const [modal, setModal] = useState(false);
+    const [messageApi, contextHolder] = message.useMessage();
 
     const getBase64 = (img, callback) => {
         const reader = new FileReader();
@@ -69,6 +70,17 @@ const AvatarUpload = () => {
         return () => clearTimeout(timeout);
     }, []);
 
+    const beforeUpload = (file) => {
+        const isLt2M = file.size / 1024 / 1024 < 1;
+        if (!isLt2M) {
+            messageApi.open({
+                type: 'error',
+                content: 'Image must smaller than 1MB',
+            });
+        }
+        return isLt2M;
+    };
+
     const uploadButton = (
         <button
             style={{
@@ -84,6 +96,7 @@ const AvatarUpload = () => {
 
     return (
         <div className="avatar">
+            {contextHolder}
             <div className='avatar-circle flex'>
                 {imageUrlAvatar
                     ?
@@ -116,6 +129,7 @@ const AvatarUpload = () => {
                     action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
                     onChange={handleChange}
                     accept="image/*"
+                    beforeUpload={beforeUpload}
                     className='avatar-upload'
                 >
                     {imageUrl ?

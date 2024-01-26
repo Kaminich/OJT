@@ -5,7 +5,6 @@ import './VideoUpload.css'
 
 const VideoUpload = () => {
     const [fileList, setFileList] = useState([]);
-    const [videoSrc , setVideoSrc] = useState("");
 
     const handleChange = (info) => {
         if (info.file.status !== 'uploading') {

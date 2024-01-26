@@ -174,8 +174,6 @@ const UserPage = () => {
         }),
     };
 
-    console.log(checkedRows)
-
     return (
         <div className="user-page">
             <SearchBar onSearch={handleSearch} />

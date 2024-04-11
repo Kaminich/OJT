@@ -6,6 +6,7 @@ import SearchBar from "../components/searchbar/SearchBar";
 import { Button, Table } from "antd";
 import CustomModal from '../components/modal/Modal'
 import CustomAlert from "../components/alert/Alert";
+import { useQuery } from "react-query";
 
 const UserPage = () => {
     const navigate = useNavigate();
@@ -22,7 +23,7 @@ const UserPage = () => {
     const [confirmVisibleCreateSuccess, setConfirmVisibleCreateSuccess] = useState(false);
     const [id, setId] = useState(null);
 
-    const getAllUser = (page) => {
+    const getAllUsers = (page) => {
         setLoading(true);
         fetch(`https://5f17e9887c06c900160dc5f7.mockapi.io/api/users?page=${page}`)
             .then(res => res.json())
@@ -31,9 +32,20 @@ const UserPage = () => {
                 setLoading(false);
             })
     }
+
     useEffect(() => {
-        getAllUser(page);
+        getAllUsers(page);
     }, [page])
+
+    const queryAllUsers = async (page) => {
+        const response = await fetch(`https://5f17e9887c06c900160dc5f7.mockapi.io/api/users?page=${page}`)
+        if (!response.ok) {
+            throw new Error('Network response not ok')
+        }
+        return response.json()
+    }
+
+    const { isLoading, data } = useQuery(['userData', page], () => queryAllUsers(page));
 
     const handleSearch = (keyword) => {
         setLoading(true);
@@ -91,7 +103,7 @@ const UserPage = () => {
             })
             .then(() => {
                 setConfirmVisibleDeleteSuccess(true);
-                getAllUser(page);
+                getAllUsers(page);
             })
             .catch(() => {
                 setConfirmVisibleDeleteFail(true);
@@ -118,7 +130,11 @@ const UserPage = () => {
         setConfirmVisibleCreateSuccess(false);
     }
 
-    if (loading) {
+    // if (loading) {
+    //     return <Loading />
+    // }
+
+    if (isLoading) {
         return <Loading />
     }
 
@@ -208,7 +224,8 @@ const UserPage = () => {
                 </tbody>
             </table > */}
 
-            {users.length === 0 ? (
+            {/* {users.length === 0 ? ( */}
+            {data.length === 0 ? (
                 <h1 className="user-table-not-found">User not found</h1>
             ) : (
                 <div>
@@ -218,7 +235,8 @@ const UserPage = () => {
                     <CustomAlert type={'update success'} onClose={handleClose} visible={confirmVisibleUpdateSuccess} />
                     <CustomAlert type={'create success'} onClose={handleClose} visible={confirmVisibleCreateSuccess} />
                     <Table
-                        dataSource={users}
+                        // dataSource={users}
+                        dataSource={data}
                         columns={columns}
                         pagination={{
                             pageSize: 10,

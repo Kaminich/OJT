@@ -1,6 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import HomePage from './ui/HomePage';
-import Layout from './components/layout/Layout'
+import Layout from './layout/Layout';
 import './App.css';
 import { useEffect } from 'react';
 import { useTheme } from './context/ThemeContext';

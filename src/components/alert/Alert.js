@@ -57,8 +57,6 @@ const CustomAlert = ({ type, onClose, visible }) => {
         return () => clearTimeout(timeout);
     }, [onClose]);
 
-    console.log(visible, visibleAlert);
-
     return (
         <Alert
             type={typeAlert}
